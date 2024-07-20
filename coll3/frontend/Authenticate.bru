@@ -1,0 +1,29 @@
+meta {
+  name: Authenticate
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3016/api/v1/public/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "data": {
+      "username": "daija",
+      "password": "LPI$Gz5euEpchMx~1PrF"
+    }
+  }
+}
+
+script:post-response {
+  let status = res.getStatus()
+  console.log(status);
+  
+  // bru.test("Successful request", function () {    
+  //     bru.expect(pm.response.code).to.be.oneOf([201,200]);
+  // });
+}
