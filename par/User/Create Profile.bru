@@ -31,16 +31,15 @@ body:json {
 
 tests {
   test("Successful request", function () {
-      let res = res.getBody()
-      const username = res['result']['data']['result']['username']
-      const accessToken = res['result']['data']['tokens']['accessToken']
-      const refreshToken = res['result']['data']['tokens']['refreshToken']
+        expect(res.getStatus()).to.be.oneOf([201,200]);  
+    var data = res.getBody();
+      const username = data.result.data.result.username;
+      const accessToken = data['result']['data']['tokens']['accessToken']
+      const refreshToken = data['result']['data']['tokens']['refreshToken']
   
       bru.setVar('username', username)
       bru.setVar('accessToken', accessToken)
       bru.setVar('refreshToken', refreshToken)
-      
-      expect(res.getStatus()).to.be.oneOf([201,200]);
   });
   
 }
