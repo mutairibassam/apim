@@ -1,0 +1,32 @@
+meta {
+  name: Approve Slot
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{base_url}}/api/v1/user/approve
+  body: json
+  auth: none
+}
+
+body:json {
+  {{payload}}
+}
+
+script:pre-request {
+  const auth = bru.getVar('accessToken');
+  // pm.request.headers.add('Bearer ' + auth,'Authorization')
+  const postId = bru.getVar('postId');
+  const requesterId = bru.getVar('requesterId');
+  
+  let body = {'data': {postId: postId, requesterId: requesterId}}
+  var newRequestBodyJSON = JSON.stringify(body);
+  // pm.globals.set('payload', newRequestBodyJSON)
+}
+
+tests {
+  test("Successful request", function () {    
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+}

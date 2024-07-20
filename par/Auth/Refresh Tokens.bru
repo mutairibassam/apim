@@ -1,0 +1,38 @@
+meta {
+  name: Refresh Tokens
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/api/v1/public/refresh
+  body: json
+  auth: none
+}
+
+body:json {
+  {{payload}}
+}
+
+script:pre-request {
+  const refreshToken = bru.getVar('refreshToken');
+  const username = bru.getVar('username');
+  
+  let body = {'data': {refreshToken: refreshToken, username: username}}
+  var newRequestBodyJSON = JSON.stringify(body);
+  // pm.globals.set('payload', newRequestBodyJSON)
+}
+
+tests {
+  test("Successful request", function () {
+      let res = res.getBody()
+      const accessToken = res['result']['data']['accessToken']
+      const refreshToken = res['result']['data']['refreshToken']
+  
+      bru.setVar('accessToken', accessToken)
+      bru.setVar('refreshToken', refreshToken)
+      
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+  
+}

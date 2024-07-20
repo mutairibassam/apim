@@ -1,0 +1,18 @@
+meta {
+  name: Test API
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/api/v1/public/test
+  body: none
+  auth: none
+}
+
+tests {
+  test("Successful request", function () {    
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+  
+}
