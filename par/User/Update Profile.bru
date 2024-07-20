@@ -1,0 +1,42 @@
+meta {
+  name: Update Profile
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/api/v1/user/update
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "data": {
+          "first_name": "{{$randomFirstName}}",
+          "last_name": "{{$randomLastName}}",
+          "username": "{{$randomFirstName}}",
+          "bio": "{{$randomWords}}",
+          "email": "{{$randomEmail}}",
+          "mobile": "0511111111",
+          "external": {
+              "linkedin": "{{$randomUrl}}",
+              "github": "{{$randomUrl}}",
+              "twitter": "{{$randomUrl}}",
+              "portfolio": "{{$randomUrl}}"
+          }
+      }
+  }
+}
+
+script:pre-request {
+  const auth = bru.getVar('accessToken');
+  // pm.request.headers.add('Bearer ' + auth,'Authorization')
+}
+
+tests {
+  test("Successful request", function () {
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+  
+}

@@ -1,0 +1,40 @@
+meta {
+  name: Create Post
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/api/v1/user/post
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "data": {
+          "location": "https://maps.google.com/na",
+          "interest": ["nodejs", "docker"],
+          "note": "Expert",
+          "date": "21/09/2023",
+          "from": "20:00 PM",
+          "to": "21:00 PM",
+          "slots": 3
+      }
+  }
+}
+
+script:pre-request {
+  const auth = bru.getVar('accessToken');
+  // pm.request.headers.add('Bearer ' + auth,'Authorization')
+}
+
+tests {
+  test("Successful request", function () {
+      let res = res.getBody()
+      const postId = res['result']['data']['_id']
+      bru.setVar('postId', postId)
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+  
+}

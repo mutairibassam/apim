@@ -1,0 +1,23 @@
+meta {
+  name: Get Timeline
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{base_url}}/api/v1/post/timeline
+  body: json
+  auth: none
+}
+
+script:pre-request {
+  const auth = bru.getVar('accessToken');
+  // pm.request.headers.add('Bearer ' + auth,'Authorization')
+}
+
+tests {
+  test("Successful request", function () {    
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+  
+}

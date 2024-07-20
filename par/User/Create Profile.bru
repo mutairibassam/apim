@@ -1,0 +1,46 @@
+meta {
+  name: Create Profile
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{base_url}}/api/v1/public/create
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "data": {
+          "first_name": "{{$randomFirstName}}",
+          "last_name": "{{$randomLastName}}",
+          "username": "{{$randomFirstName}}",
+          "bio": "{{$randomWords}}",
+          "email": "{{$randomEmail}}",
+          "mobile": "0511111111",
+          "external": {
+              "linkedin": "{{$randomUrl}}",
+              "github": "{{$randomUrl}}",
+              "twitter": "{{$randomUrl}}",
+              "portfolio": "{{$randomUrl}}"
+          }
+      }
+  }
+}
+
+tests {
+  test("Successful request", function () {
+      let res = res.getBody()
+      const username = res['result']['data']['result']['username']
+      const accessToken = res['result']['data']['tokens']['accessToken']
+      const refreshToken = res['result']['data']['tokens']['refreshToken']
+  
+      bru.setVar('username', username)
+      bru.setVar('accessToken', accessToken)
+      bru.setVar('refreshToken', refreshToken)
+      
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+  
+}

@@ -1,0 +1,25 @@
+meta {
+  name: Create Post user-2
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{base_url}}/api/v1/user/post
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "data": {
+          "location": "https://maps.google.com/na",
+          "interest": ["na", "na"],
+          "note": "Expert",
+          "date": "20/02/2202",
+          "from": "20:00 PM",
+          "to": "21:00 PM",
+          "slots": "2"
+      }
+  }
+}

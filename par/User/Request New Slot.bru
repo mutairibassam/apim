@@ -1,0 +1,33 @@
+meta {
+  name: Request New Slot
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{base_url}}/api/v1/user/request
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "data": {
+          "postId": "6496c91596fbb443b146444d"
+      }
+  }
+}
+
+script:pre-request {
+  const auth = bru.getVar('accessToken2');
+  const postId = bru.getVar('postId');
+  // pm.request.headers.add('Bearer ' + auth,'Authorization')
+  let body = {'data': {'postId': postId}}
+  // pm.request.body.update(body)
+}
+
+tests {
+  test("Successful request", function () {
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+}

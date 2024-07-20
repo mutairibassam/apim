@@ -1,0 +1,26 @@
+meta {
+  name: Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/api/v1/public/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "data": {
+          "username": "daija",
+          "password": "LPI$Gz5euEpchMx~1PrF"
+      }
+  }
+}
+
+tests {
+  test("Successful request", function () {    
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+}

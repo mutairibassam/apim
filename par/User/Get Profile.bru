@@ -1,0 +1,28 @@
+meta {
+  name: Get Profile
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{base_url}}/api/v1/user/profile/:profile
+  body: json
+  auth: none
+}
+
+params:path {
+  profile: 
+}
+
+script:pre-request {
+  const auth = bru.getVar('accessToken');
+  // pm.request.headers.add('Bearer ' + auth,'Authorization');
+  const username = bru.getVar('username');
+  // pm.request.url.variables.idx(0).value = username;
+}
+
+tests {
+  test("Successful request", function () {
+      expect(res.getStatus()).to.be.oneOf([201,200]);
+  });
+}
